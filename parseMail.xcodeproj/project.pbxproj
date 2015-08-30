@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		B26EEF001B9346890058B921 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = B26EEEFF1B9346890058B921 /* main.c */; };
+		B26EEF0F1B9347000058B921 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = B26EEF061B9347000058B921 /* base64.c */; };
+		B26EEF101B9347000058B921 /* rfc822.c in Sources */ = {isa = PBXBuildFile; fileRef = B26EEF0A1B9347000058B921 /* rfc822.c */; };
+		B26EEF111B9347000058B921 /* sdump.c in Sources */ = {isa = PBXBuildFile; fileRef = B26EEF0B1B9347000058B921 /* sdump.c */; };
+		B26EEF121B9347000058B921 /* xmalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = B26EEF0D1B9347000058B921 /* xmalloc.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +29,15 @@
 /* Begin PBXFileReference section */
 		B26EEEFC1B9346890058B921 /* parseMail */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = parseMail; sourceTree = BUILT_PRODUCTS_DIR; };
 		B26EEEFF1B9346890058B921 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		B26EEF061B9347000058B921 /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
+		B26EEF071B9347000058B921 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		B26EEF081B9347000058B921 /* fetchmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fetchmail.h; sourceTree = "<group>"; };
+		B26EEF091B9347000058B921 /* i18n.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = i18n.h; sourceTree = "<group>"; };
+		B26EEF0A1B9347000058B921 /* rfc822.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rfc822.c; sourceTree = "<group>"; };
+		B26EEF0B1B9347000058B921 /* sdump.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sdump.c; sourceTree = "<group>"; };
+		B26EEF0C1B9347000058B921 /* sdump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sdump.h; sourceTree = "<group>"; };
+		B26EEF0D1B9347000058B921 /* xmalloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmalloc.c; sourceTree = "<group>"; };
+		B26EEF0E1B9347000058B921 /* xmalloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmalloc.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +70,15 @@
 		B26EEEFE1B9346890058B921 /* parseMail */ = {
 			isa = PBXGroup;
 			children = (
+				B26EEF061B9347000058B921 /* base64.c */,
+				B26EEF071B9347000058B921 /* config.h */,
+				B26EEF081B9347000058B921 /* fetchmail.h */,
+				B26EEF091B9347000058B921 /* i18n.h */,
+				B26EEF0A1B9347000058B921 /* rfc822.c */,
+				B26EEF0B1B9347000058B921 /* sdump.c */,
+				B26EEF0C1B9347000058B921 /* sdump.h */,
+				B26EEF0D1B9347000058B921 /* xmalloc.c */,
+				B26EEF0E1B9347000058B921 /* xmalloc.h */,
 				B26EEEFF1B9346890058B921 /* main.c */,
 			);
 			path = parseMail;
@@ -118,7 +140,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B26EEF121B9347000058B921 /* xmalloc.c in Sources */,
+				B26EEF0F1B9347000058B921 /* base64.c in Sources */,
+				B26EEF111B9347000058B921 /* sdump.c in Sources */,
 				B26EEF001B9346890058B921 /* main.c in Sources */,
+				B26EEF101B9347000058B921 /* rfc822.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +261,7 @@
 				B26EEF051B9346890058B921 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
