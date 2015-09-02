@@ -1,0 +1,153 @@
+string :handMainFile(string strMainFile){
+    string DecodeAns = "";
+    string LineString = "";
+    string StringNeedToDecode = "";
+    string boundaryString = "";
+    bool isMime = false;
+    //???°„o°±°Ã???®C?
+    char EncodeType = '8';
+    char CharsetString = 'u';
+    stringstream needPstring;
+    needPstring.str(strMainFile);
+    int first_p;
+    while (std::getline(needPstring, LineString) && LineString != ""){
+        // °¬a°±®C°Æ?MIME-Version¶Ã? °¿°“®≤°‹°÷¶∏°•®C®C¶∏???
+        if ((LineString.find("MIME-Version: 1.0") != -1) || (LineString.find("Mime-Version: 1.0") != -1) || (LineString.find("MIME-version: 1.0") != -1)){
+            //¶–?¶–?®C?¶Ã?°∞a®C®C°Í°„°Í°„°Í°„
+            isMime = true;
+        }
+        if (isMime){
+            //std::getline(needPstring,LineString);
+            //?£§?£§°±®C°Ãa°±®C°¿?¶∏®¢
+            if ((first_p = (LineString.find("boundary=")) != -1)){
+                if (LineString[first_p + 9] == '\"'){
+                    int last_p;
+                    last_p = LineString.rfind("\"");
+                    boundaryString = LineString.substr(first_p + 10, 10);//»°10Œªø…“‘»›¥Ì
+                }
+                else{
+                    boundaryString = LineString.substr(first_p + 9,10);
+                }
+            }
+        }
+    }
+    //find first line!!!
+    bool isNullLine = false;
+    while (std::getline(needPstring, LineString)){
+        if (LineString.find("charset=") != -1){
+            first_p = LineString.find("charset=") + 8;
+            CharsetString = LineString[first_p];
+        }
+        if (LineString.find("Content-Transfer-Encoding:") != -1){
+            first_p = LineString.find("Content-Transfer-Encoding:") + 27;
+            EncodeType = LineString[first_p];
+        }
+        StringNeedToDecode = "";
+        //
+        if (LineString == "") isNullLine = true;
+        if(isNullLine){
+            while (std::getline(needPstring, LineString)){
+                //not find
+                if (LineString.find(boundaryString) == -1){
+                    if (LineString != "") {
+                        StringNeedToDecode += LineString;
+                    }
+                    else{
+                        StringNeedToDecode += '\n';
+                    }
+                }
+                else{
+                    //output it
+                    DecodeAns += DecodeiMail(StringNeedToDecode, EncodeType, CharsetString);
+                    isNullLine = false;
+                    char EncodeType = '8';
+                    char CharsetString = 'u';
+                    break;
+                }
+            }//while
+        }
+    }
+    //NEED TO DO Charset
+    return DecodeAns;
+}
+
+string  :DecodeiMail(string StringNeedToDecode,char decodeType,char charsetType){
+        string ans = "";
+        //char cans[4096];
+        int len=4096;
+        //»Áπ˚ «base¿‡–ÕµƒæÕΩ¯––base64Ω‚¬Î
+        if (decodeType == 'b'||decodeType == 'B'){
+        //Ω‚¬Î
+            CBase64 base64;
+            char orgin_pwd_buf[4096]={0,};
+            unsigned char decode_buf[4096] = {};
+            //Ω‚¬Î
+            memset(orgin_pwd_buf,0,4096);
+            memset(decode_buf,0,4096);
+            sprintf_s(orgin_pwd_buf, 4096, StringNeedToDecode.c_str());
+            unsigned int uLen = 4096;
+            base64.Decode((PUCHAR)orgin_pwd_buf, strlen(orgin_pwd_buf), decode_buf, uLen);
+            ans=(char *)decode_buf;
+        }else if (decodeType == 'q'||decodeType == 'Q'){
+            //TO DO qΩ‚¬Î
+            ans+=DoOneQP( StringNeedToDecode );
+        }else {
+            //Œ¥÷™¿‡–Õ÷±Ω”∑µªÿ
+            ans="-----Unknow--Message---begin---"+StringNeedToDecode+"-----Unknow--Message--end----";
+        }
+        return ans;
+}
+
+//process OneQPLine
+string ::DoOneQP(std::string instr)
+{
+    string buf=instr;
+    char ch;
+    std::string outans="";
+
+    for(int i=0;i<buf.size();i++){
+        if(i+2>=buf.size()){
+            outans+=buf[i];
+            continue;
+        }
+        if(buf[i]=='='){
+            if(qp_char(buf[i+1] ,buf[i+2] , &ch)){
+                outans+='=';
+                outans+=buf[i+1];
+                i++;
+            }else{
+                outans+=ch;
+                //«∞Ω¯2∏Ë
+                i+=2;
+            };
+        }else{
+            outans+=buf[i];
+        }
+    }
+    return outans;
+}
+
+unsigned char :unhex(unsigned char c)
+{
+    if ((c >= '0') && (c <= '9'))
+        return (c - '0');
+    else if ((c >= 'A') && (c <= 'F'))
+        return (c - 'A' + 10);
+    else if ((c >= 'a') && (c <= 'f'))
+        return (c - 'a' + 10);
+    else
+        return 16;	/* invalid hex character */
+}
+
+int qp_char(unsigned char c1, unsigned char c2, char *c_out)
+{
+    c1 = unhex(c1);
+    c2 = unhex(c2);
+
+    if ((c1 > 15) || (c2 > 15)) 
+        return 1;
+    else {
+        *c_out = 16*c1+c2;
+        return 0;
+    }
+}
